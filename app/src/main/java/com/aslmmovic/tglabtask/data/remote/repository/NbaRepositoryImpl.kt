@@ -9,11 +9,13 @@ import com.aslmmovic.tglabtask.data.remote.mapper.toDomain
 import com.aslmmovic.tglabtask.data.remote.paging.GamesPagingSource
 import com.aslmmovic.tglabtask.data.remote.safeApiCall
 import com.aslmmovic.tglabtask.domain.model.Game
+import com.aslmmovic.tglabtask.domain.model.Player
 import com.aslmmovic.tglabtask.domain.model.Team
 import com.aslmmovic.tglabtask.domain.repository.NbaRepository
 import com.aslmmovic.tglabtask.domain.util.AppResult
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
+
 
 class NbaRepositoryImpl @Inject constructor(
     private val api: NbaApi
@@ -39,4 +41,17 @@ class NbaRepositoryImpl @Inject constructor(
             pagingSourceFactory = { GamesPagingSource(api, teamId) }
         ).flow
     }
+
+
+    override suspend fun searchPlayers(query: String): AppResult<List<Player>> = safeApiCall {
+        api.searchPlayers(query = query, page = 1, perPage = 25)
+            .data
+            .map { it.toDomain() }
+    }.let { result ->
+        when (result) {
+            is AppResult.Success -> if (result.data.isEmpty()) AppResult.Empty else result
+            else -> result
+        }
+    }
+
 }

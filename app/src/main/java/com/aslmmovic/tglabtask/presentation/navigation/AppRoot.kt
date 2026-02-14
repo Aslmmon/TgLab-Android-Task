@@ -12,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.*
 import com.aslmmovic.tglabtask.presentation.ui.home.HomeScreen
+import com.aslmmovic.tglabtask.presentation.ui.players.PlayersScreen
 import com.aslmmovic.tglabtask.presentation.ui.team.TeamGamesSheet
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -55,24 +56,24 @@ fun AppRoot() {
                 HomeScreen(
                     onTeamClick = { teamId -> selectedTeamId = teamId }
                 )
-
-                if (selectedTeamId != null) {
-                    ModalBottomSheet(
-                        onDismissRequest = { selectedTeamId = null },
-                        sheetState = sheetState
-                    ) {
-                        TeamGamesSheet(
-                            teamId = selectedTeamId!!,
-                            onClose = { selectedTeamId = null }
-                        )
-                    }
-                }
             }
 
             composable(Route.Players.route) {
-                // Placeholder for now
-                Text("Players Screen")
+                PlayersScreen(
+                    onPlayerTeamClick = { teamId -> selectedTeamId = teamId }
+                )
             }
+        }
+    }
+    if (selectedTeamId != null) {
+        ModalBottomSheet(
+            onDismissRequest = { selectedTeamId = null },
+            sheetState = sheetState
+        ) {
+            TeamGamesSheet(
+                teamId = selectedTeamId!!,
+                onClose = { selectedTeamId = null }
+            )
         }
     }
 }
