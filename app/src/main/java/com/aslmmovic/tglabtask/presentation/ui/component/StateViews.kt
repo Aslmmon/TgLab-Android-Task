@@ -6,7 +6,10 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.aslmmovic.tglabtask.R
+import com.aslmmovic.tglabtask.presentation.theme.Dimens
 
 @Composable
 fun LoadingView(
@@ -19,7 +22,7 @@ fun LoadingView(
         verticalArrangement = Arrangement.Center
     ) {
         CircularProgressIndicator()
-        Spacer(Modifier.height(10.dp))
+        Spacer(Modifier.height(Dimens.ItemSpacing))
         Text(text)
     }
 }
@@ -41,7 +44,7 @@ fun EmptyView(
 fun ErrorView(
     message: String,
     onRetry: () -> Unit,
-    retryText: String = "Retry",
+    retryText: String = stringResource(R.string.retry),
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -50,7 +53,7 @@ fun ErrorView(
         verticalArrangement = Arrangement.Center
     ) {
         Text(message)
-        Spacer(Modifier.height(12.dp))
+        Spacer(Modifier.height(Dimens.ItemSpacing))
         Button(onClick = onRetry) { Text(retryText) }
     }
 }

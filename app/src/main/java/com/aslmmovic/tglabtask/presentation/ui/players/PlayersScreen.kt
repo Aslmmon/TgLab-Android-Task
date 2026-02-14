@@ -14,6 +14,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.aslmmovic.tglabtask.R
 import com.aslmmovic.tglabtask.domain.model.Player
+import com.aslmmovic.tglabtask.presentation.theme.Dimens
 import com.aslmmovic.tglabtask.presentation.ui.component.EmptyView
 import com.aslmmovic.tglabtask.presentation.ui.component.ErrorView
 import com.aslmmovic.tglabtask.presentation.ui.component.LoadingView
@@ -32,11 +33,11 @@ fun PlayersScreen(
     Column(
         modifier = modifier
             .fillMaxSize()
-            .padding(16.dp)
+            .padding(Dimens.ScreenPadding)
     ) {
         Text(stringResource(R.string.search_players), style = MaterialTheme.typography.titleLarge)
 
-        Spacer(Modifier.height(12.dp))
+        Spacer(Modifier.height(Dimens.ItemSpacing))
 
         OutlinedTextField(
             value = query,
@@ -46,7 +47,7 @@ fun PlayersScreen(
             placeholder = { Text(stringResource(R.string.search_placeholder)) }
         )
 
-        Spacer(Modifier.height(12.dp))
+        Spacer(Modifier.height(Dimens.ItemSpacing))
 
         when (state) {
             UiState.Loading -> LoadingView(stringResource(R.string.searching))
@@ -80,14 +81,14 @@ private fun PlayerRow(player: Player, onClick: () -> Unit) {
         modifier = Modifier
             .fillMaxWidth()
             .clickable(enabled = player.teamId != null) { onClick() }
-            .padding(vertical = 12.dp)
+            .padding(vertical = Dimens.ItemSpacing)
     ) {
         Column(Modifier.weight(1f)) {
             Text(
                 text = "${player.firstName} ${player.lastName}".trim(),
                 style = MaterialTheme.typography.titleMedium
             )
-            Spacer(Modifier.height(4.dp))
+            Spacer(Modifier.height(Dimens.SmallSpacing))
             Text(player.teamName, style = MaterialTheme.typography.bodyMedium)
         }
     }

@@ -6,11 +6,19 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
+import com.aslmmovic.tglabtask.R
 import com.aslmmovic.tglabtask.domain.model.Game
+import com.aslmmovic.tglabtask.domain.util.toAppError
+import com.aslmmovic.tglabtask.presentation.theme.Dimens
+import com.aslmmovic.tglabtask.presentation.ui.component.ErrorView
+import com.aslmmovic.tglabtask.presentation.ui.component.LoadingView
+import com.aslmmovic.tglabtask.presentation.util.UiState
+import com.aslmmovic.tglabtask.presentation.util.toUserMessage
 import com.aslmmovic.tglabtask.presentation.viewmodel.TeamGamesViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -31,7 +39,7 @@ fun TeamGamesSheet(
     Column(
         modifier = modifier
             .fillMaxWidth()
-            .padding(16.dp)
+            .padding(Dimens.ScreenPadding)
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -42,19 +50,21 @@ fun TeamGamesSheet(
             TextButton(onClick = onClose) { Text("Close") }
         }
 
-        Spacer(Modifier.height(12.dp))
+        Spacer(Modifier.height(Dimens.ItemSpacing))
 
         when (val refresh = games.loadState.refresh) {
-            is LoadState.Loading -> LoadingView()
+            is LoadState.Loading ->
+                LoadingView(stringResource(R.string.loading_teams))
+
             is LoadState.Error -> ErrorView(
-                message = refresh.error.message ?: "Failed to load games",
-                onRetry = { games.retry() }
+                message = refresh.error.toAppError().toUserMessage(),
+                onRetry = games::retry
             )
 
             else -> {
                 LazyColumn(
                     modifier = Modifier.fillMaxWidth(),
-                    contentPadding = PaddingValues(bottom = 16.dp)
+                    contentPadding = PaddingValues(bottom = Dimens.ScreenPadding)
                 ) {
                     items(games.itemCount) { index ->
                         games[index]?.let { GameRow(it) }
@@ -66,7 +76,8 @@ fun TeamGamesSheet(
                         is LoadState.Loading -> item { PagingLoadingItem() }
                         is LoadState.Error -> item {
                             PagingErrorItem(
-                                message = append.error.message ?: "Failed to load more",
+                                message = append.error.message
+                                    ?: stringResource(R.string.failed_to_load_more),
                                 onRetry = { games.retry() }
                             )
                         }
@@ -84,7 +95,7 @@ private fun GameRow(game: Game) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(vertical = 12.dp)
+            .padding(vertical = Dimens.ItemSpacing)
     ) {
         Text(
             text = "${game.homeTeamName}  ${game.homeTeamScore}",
@@ -97,30 +108,6 @@ private fun GameRow(game: Game) {
     }
 }
 
-@Composable
-private fun LoadingView() {
-    Box(
-        Modifier
-            .fillMaxWidth()
-            .padding(24.dp), contentAlignment = Alignment.Center
-    ) {
-        CircularProgressIndicator()
-    }
-}
-
-@Composable
-private fun ErrorView(message: String, onRetry: () -> Unit) {
-    Column(
-        Modifier
-            .fillMaxWidth()
-            .padding(24.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Text(message)
-        Spacer(Modifier.height(12.dp))
-        Button(onClick = onRetry) { Text("Retry") }
-    }
-}
 
 @Composable
 private fun PagingLoadingItem() {

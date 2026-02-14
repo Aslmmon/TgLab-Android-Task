@@ -10,7 +10,7 @@ fun <T> AppResult<T>.toUiState(): UiState<T> = when (this) {
     is AppResult.Error -> UiState.Error(error.toUserMessage())
 }
 
-private fun AppError.toUserMessage(): String = when (this) {
+ fun AppError.toUserMessage(): String = when (this) {
     AppError.NetworkUnavailable -> "No internet connection."
     AppError.Timeout -> "Request timed out. Please try again."
     is AppError.Http -> "Server error (${code}). ${message.orEmpty()}".trim()
