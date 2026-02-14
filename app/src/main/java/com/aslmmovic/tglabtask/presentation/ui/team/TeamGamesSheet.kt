@@ -21,7 +21,12 @@ fun TeamGamesSheet(
     modifier: Modifier = Modifier,
     viewModel: TeamGamesViewModel = hiltViewModel()
 ) {
-    val games = viewModel.games(teamId).collectAsLazyPagingItems()
+
+    LaunchedEffect(teamId) {
+        viewModel.setTeamId(teamId)
+    }
+    val games = viewModel.gamesFlow.collectAsLazyPagingItems()
+
 
     Column(
         modifier = modifier
@@ -76,9 +81,11 @@ fun TeamGamesSheet(
 
 @Composable
 private fun GameRow(game: Game) {
-    Column(modifier = Modifier
-        .fillMaxWidth()
-        .padding(vertical = 12.dp)) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 12.dp)
+    ) {
         Text(
             text = "${game.homeTeamName}  ${game.homeTeamScore}",
             style = MaterialTheme.typography.titleMedium
@@ -92,9 +99,11 @@ private fun GameRow(game: Game) {
 
 @Composable
 private fun LoadingView() {
-    Box(Modifier
-        .fillMaxWidth()
-        .padding(24.dp), contentAlignment = Alignment.Center) {
+    Box(
+        Modifier
+            .fillMaxWidth()
+            .padding(24.dp), contentAlignment = Alignment.Center
+    ) {
         CircularProgressIndicator()
     }
 }
@@ -115,9 +124,11 @@ private fun ErrorView(message: String, onRetry: () -> Unit) {
 
 @Composable
 private fun PagingLoadingItem() {
-    Box(Modifier
-        .fillMaxWidth()
-        .padding(16.dp), contentAlignment = Alignment.Center) {
+    Box(
+        Modifier
+            .fillMaxWidth()
+            .padding(16.dp), contentAlignment = Alignment.Center
+    ) {
         CircularProgressIndicator()
     }
 }

@@ -12,7 +12,7 @@ import java.io.IOException
 class GamesPagingSource(
     private val api: NbaApi,
     private val teamId: Int,
-    private val perPage: Int = 25
+    private val perPage: Int = 50
 ) : PagingSource<Int, Game>() {
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Game> {
