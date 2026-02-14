@@ -12,6 +12,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.aslmmovic.tglabtask.domain.model.Player
+import com.aslmmovic.tglabtask.presentation.ui.component.EmptyView
+import com.aslmmovic.tglabtask.presentation.ui.component.ErrorView
+import com.aslmmovic.tglabtask.presentation.ui.component.LoadingView
 import com.aslmmovic.tglabtask.presentation.util.UiState
 import com.aslmmovic.tglabtask.presentation.viewmodel.PlayersViewModel
 
@@ -44,12 +47,13 @@ fun PlayersScreen(
         Spacer(Modifier.height(12.dp))
 
         when (state) {
-            UiState.Loading -> CenterLoading("Searching…")
-            UiState.Empty -> CenterText("Type to search players.")
-            is UiState.Error -> CenterError(
+            UiState.Loading -> LoadingView("Searching…")
+            UiState.Empty -> EmptyView("Type to search players.")
+            is UiState.Error -> ErrorView(
                 message = (state as UiState.Error).message,
                 onRetry = viewModel::retry
             )
+
             is UiState.Success -> {
                 val players = (state as UiState.Success<List<Player>>).data
                 LazyColumn(Modifier.fillMaxSize()) {
@@ -87,25 +91,3 @@ private fun PlayerRow(player: Player, onClick: () -> Unit) {
     }
 }
 
-@Composable
-private fun CenterLoading(text: String) {
-    Column(Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center) {
-        CircularProgressIndicator()
-        Spacer(Modifier.height(10.dp))
-        Text(text)
-    }
-}
-
-@Composable
-private fun CenterText(text: String) {
-    Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) { Text(text) }
-}
-
-@Composable
-private fun CenterError(message: String, onRetry: () -> Unit) {
-    Column(Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center) {
-        Text(message)
-        Spacer(Modifier.height(12.dp))
-        Button(onClick = onRetry) { Text("Retry") }
-    }
-}

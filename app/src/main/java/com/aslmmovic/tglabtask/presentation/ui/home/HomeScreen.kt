@@ -31,6 +31,9 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.aslmmovic.tglabtask.domain.model.Team
 import com.aslmmovic.tglabtask.domain.model.TeamSort
+import com.aslmmovic.tglabtask.presentation.ui.component.EmptyView
+import com.aslmmovic.tglabtask.presentation.ui.component.ErrorView
+import com.aslmmovic.tglabtask.presentation.ui.component.LoadingView
 import com.aslmmovic.tglabtask.presentation.util.UiState
 import com.aslmmovic.tglabtask.presentation.viewmodel.HomeViewModel
 
@@ -69,17 +72,15 @@ fun HomeScreen(
         Spacer(modifier = Modifier.height(12.dp))
 
         when (state) {
-            UiState.Loading -> LoadingView()
+            UiState.Loading -> LoadingView("Searching…")
 
-            UiState.Empty -> EmptyView(
-                message = "No teams found."
-            )
+            UiState.Empty -> EmptyView("No teams found.")
+
 
             is UiState.Error -> ErrorView(
                 message = (state as UiState.Error).message,
                 onRetry = viewModel::retry
             )
-
             is UiState.Success -> {
                 val teams = (state as UiState.Success<List<Team>>).data
                 TeamsList(
@@ -200,45 +201,8 @@ private fun SortOptionRow(
     }
 }
 
-@Composable
-private fun LoadingView() {
-    Column(
-        modifier = Modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        CircularProgressIndicator()
-        Spacer(modifier = Modifier.height(10.dp))
-        Text("Loading teams...")
-    }
-}
 
-@Composable
-private fun EmptyView(message: String) {
-    Column(
-        modifier = Modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Text(message)
-    }
-}
 
-@Composable
-private fun ErrorView(
-    message: String,
-    onRetry: () -> Unit
-) {
-    Column(
-        modifier = Modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Text(message)
-        Spacer(modifier = Modifier.height(12.dp))
-        Button(onClick = onRetry) { Text("Retry") }
-    }
-}
 
 private fun TeamSort.toButtonTitle(): String = when (this) {
     TeamSort.NAME -> "Name"
