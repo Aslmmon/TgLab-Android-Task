@@ -5,7 +5,7 @@ import com.aslmmovic.tglabtask.domain.model.Team
 
 fun TeamDto.toDomain() = Team(
     id = id,
-    fullName = fullName ?: name ?: "Unknown",
-    city = city ?: "Unknown",
-    conference = conference ?: "Unknown"
+    fullName = fullName ?: name ?: "",
+    city = city ?: "",
+    conference = conference ?: ""
 )
