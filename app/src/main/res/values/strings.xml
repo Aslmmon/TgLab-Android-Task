@@ -1,3 +1,21 @@
 <resources>
     <string name="app_name">TgLabTask</string>
+    <string name="teams">Teams</string>
+    <string name="loading_teams">Loading teams…</string>
+    <string name="no_teams_found">No teams found.</string>
+
+    <string name="search_players">Search Players</string>
+    <string name="search_placeholder">Type a player name…</string>
+    <string name="type_to_search_players">Type to search players.</string>
+    <string name="searching">Searching…</string>
+
+    <string name="retry">Retry</string>
+    <string name="sort_by">Sort by</string>
+    <string name="close">Close</string>
+
+    <string name="recent_games">Recent Games</string>
+    <string name="failed_to_load_games">Failed to load games</string>
+    <string name="failed_to_load_more">Failed to load more</string>
+    <string name="rate_limited">Rate limited (429). Please wait a moment and retry.</string>
+
 </resources>

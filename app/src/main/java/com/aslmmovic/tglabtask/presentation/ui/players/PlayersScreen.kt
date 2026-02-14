@@ -9,8 +9,10 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.aslmmovic.tglabtask.R
 import com.aslmmovic.tglabtask.domain.model.Player
 import com.aslmmovic.tglabtask.presentation.ui.component.EmptyView
 import com.aslmmovic.tglabtask.presentation.ui.component.ErrorView
@@ -32,7 +34,7 @@ fun PlayersScreen(
             .fillMaxSize()
             .padding(16.dp)
     ) {
-        Text("Search Players", style = MaterialTheme.typography.titleLarge)
+        Text(stringResource(R.string.search_players), style = MaterialTheme.typography.titleLarge)
 
         Spacer(Modifier.height(12.dp))
 
@@ -41,14 +43,14 @@ fun PlayersScreen(
             onValueChange = viewModel::onQueryChange,
             modifier = Modifier.fillMaxWidth(),
             singleLine = true,
-            placeholder = { Text("Type a player name…") }
+            placeholder = { Text(stringResource(R.string.search_placeholder)) }
         )
 
         Spacer(Modifier.height(12.dp))
 
         when (state) {
-            UiState.Loading -> LoadingView("Searching…")
-            UiState.Empty -> EmptyView("Type to search players.")
+            UiState.Loading -> LoadingView(stringResource(R.string.searching))
+            UiState.Empty -> EmptyView(stringResource(R.string.type_to_search_players))
             is UiState.Error -> ErrorView(
                 message = (state as UiState.Error).message,
                 onRetry = viewModel::retry

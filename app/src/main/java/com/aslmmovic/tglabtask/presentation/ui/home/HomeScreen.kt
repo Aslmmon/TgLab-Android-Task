@@ -27,8 +27,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.aslmmovic.tglabtask.R
 import com.aslmmovic.tglabtask.domain.model.Team
 import com.aslmmovic.tglabtask.domain.model.TeamSort
 import com.aslmmovic.tglabtask.presentation.ui.component.EmptyView
@@ -60,7 +62,7 @@ fun HomeScreen(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
-                text = "Teams",
+                text = stringResource(R.string.teams),
                 style = MaterialTheme.typography.titleLarge
             )
 
@@ -72,15 +74,20 @@ fun HomeScreen(
         Spacer(modifier = Modifier.height(12.dp))
 
         when (state) {
-            UiState.Loading -> LoadingView("Searching…")
+            UiState.Loading ->
+                LoadingView(stringResource(R.string.loading_teams))
 
-            UiState.Empty -> EmptyView("No teams found.")
+            UiState.Empty ->
+                EmptyView(stringResource(R.string.no_teams_found))
 
 
-            is UiState.Error -> ErrorView(
-                message = (state as UiState.Error).message,
-                onRetry = viewModel::retry
-            )
+            is UiState.Error ->
+                ErrorView(
+                    message = (state as UiState.Error).message,
+                    onRetry = viewModel::retry,
+                    retryText = stringResource(R.string.retry)
+                )
+
             is UiState.Success -> {
                 val teams = (state as UiState.Success<List<Team>>).data
                 TeamsList(
@@ -200,8 +207,6 @@ private fun SortOptionRow(
         )
     }
 }
-
-
 
 
 private fun TeamSort.toButtonTitle(): String = when (this) {
