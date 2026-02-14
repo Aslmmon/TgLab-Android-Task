@@ -4,16 +4,24 @@ package com.aslmmovic.tglabtask.presentation.navigation
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.*
 import com.aslmmovic.tglabtask.presentation.ui.home.HomeScreen
+import com.aslmmovic.tglabtask.presentation.ui.team.TeamGamesSheet
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AppRoot() {
     val navController = rememberNavController()
     val navBackStackEntry = navController.currentBackStackEntryAsState().value
     val currentRoute = navBackStackEntry?.destination?.route
+    var selectedTeamId by remember { mutableStateOf<Int?>(null) }
+    val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
 
     Scaffold(
         bottomBar = {
@@ -45,11 +53,20 @@ fun AppRoot() {
         ) {
             composable(Route.Home.route) {
                 HomeScreen(
-                    onTeamClick = { teamId ->
-                        // Next step: open Team bottom sheet
-                        // For now just log or store state
-                    }
+                    onTeamClick = { teamId -> selectedTeamId = teamId }
                 )
+
+                if (selectedTeamId != null) {
+                    ModalBottomSheet(
+                        onDismissRequest = { selectedTeamId = null },
+                        sheetState = sheetState
+                    ) {
+                        TeamGamesSheet(
+                            teamId = selectedTeamId!!,
+                            onClose = { selectedTeamId = null }
+                        )
+                    }
+                }
             }
 
             composable(Route.Players.route) {
