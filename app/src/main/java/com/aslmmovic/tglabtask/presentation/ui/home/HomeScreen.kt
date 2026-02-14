@@ -33,6 +33,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.aslmmovic.tglabtask.R
 import com.aslmmovic.tglabtask.domain.model.Team
 import com.aslmmovic.tglabtask.domain.model.TeamSort
+import com.aslmmovic.tglabtask.domain.model.toButtonTitle
+import com.aslmmovic.tglabtask.presentation.theme.Dimens
 import com.aslmmovic.tglabtask.presentation.ui.component.EmptyView
 import com.aslmmovic.tglabtask.presentation.ui.component.ErrorView
 import com.aslmmovic.tglabtask.presentation.ui.component.LoadingView
@@ -53,7 +55,7 @@ fun HomeScreen(
     Column(
         modifier = modifier
             .fillMaxSize()
-            .padding(16.dp)
+            .padding(Dimens.ScreenPadding)
     ) {
         // Top row: Sort button
         Row(
@@ -71,7 +73,7 @@ fun HomeScreen(
             }
         }
 
-        Spacer(modifier = Modifier.height(12.dp))
+        Spacer(modifier = Modifier.height(Dimens.ItemSpacing))
 
         when (state) {
             UiState.Loading ->
@@ -137,7 +139,7 @@ private fun TeamRow(
         modifier = Modifier
             .fillMaxWidth()
             .clickable { onClick() }
-            .padding(vertical = 12.dp),
+            .padding(vertical = Dimens.ItemSpacing),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Column(modifier = Modifier.weight(1f)) {
@@ -145,7 +147,7 @@ private fun TeamRow(
                 text = team.fullName,
                 style = MaterialTheme.typography.titleMedium
             )
-            Spacer(modifier = Modifier.height(4.dp))
+            Spacer(modifier = Modifier.height(Dimens.SmallSpacing))
             Text(
                 text = "${team.city} • ${team.conference}",
                 style = MaterialTheme.typography.bodyMedium
@@ -162,28 +164,28 @@ private fun SortDialog(
 ) {
     AlertDialog(
         onDismissRequest = onDismiss,
-        title = { Text("Sort by") },
+        title = { Text(stringResource(R.string.sort_by)) },
         text = {
             Column {
                 SortOptionRow(
-                    title = "Name",
+                    title = TeamSort.NAME.toButtonTitle(),
                     selected = selected == TeamSort.NAME,
                     onClick = { onSelect(TeamSort.NAME) }
                 )
                 SortOptionRow(
-                    title = "City",
+                    title = TeamSort.CITY.toButtonTitle(),
                     selected = selected == TeamSort.CITY,
                     onClick = { onSelect(TeamSort.CITY) }
                 )
                 SortOptionRow(
-                    title = "Conference",
+                    title = TeamSort.CONFERENCE.toButtonTitle(),
                     selected = selected == TeamSort.CONFERENCE,
                     onClick = { onSelect(TeamSort.CONFERENCE) }
                 )
             }
         },
         confirmButton = {
-            TextButton(onClick = onDismiss) { Text("Close") }
+            TextButton(onClick = onDismiss) { Text(stringResource(R.string.close)) }
         }
     )
 }
@@ -198,7 +200,7 @@ private fun SortOptionRow(
         modifier = Modifier
             .fillMaxWidth()
             .clickable { onClick() }
-            .padding(vertical = 10.dp),
+            .padding(vertical = Dimens.ItemSpacing),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(
@@ -208,9 +210,3 @@ private fun SortOptionRow(
     }
 }
 
-
-private fun TeamSort.toButtonTitle(): String = when (this) {
-    TeamSort.NAME -> "Name"
-    TeamSort.CITY -> "City"
-    TeamSort.CONFERENCE -> "Conference"
-}
