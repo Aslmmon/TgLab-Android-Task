@@ -2,6 +2,7 @@ package com.aslmmovic.tglabtask.data.di
 
 import com.aslmmovic.tglabtask.BuildConfig
 import com.aslmmovic.tglabtask.data.remote.api.ApiConstants
+import com.aslmmovic.tglabtask.data.remote.api.ApiHeaders
 import com.aslmmovic.tglabtask.data.remote.api.NbaApi
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import dagger.Module
@@ -31,19 +32,28 @@ object NetworkModule {
     @Provides
     @Singleton
     fun provideOkHttpClient(): OkHttpClient {
-        val logger = HttpLoggingInterceptor().apply {
-            level = HttpLoggingInterceptor.Level.BODY
-        }
         val authInterceptor = Interceptor { chain ->
             val request = chain.request().newBuilder()
-                .addHeader("Authorization", BuildConfig.BALLDONTLIE_API_KEY)
+                .addHeader(ApiHeaders.AUTHORIZATION, BuildConfig.BALLDONTLIE_API_KEY)
                 .build()
             chain.proceed(request)
         }
-        return OkHttpClient.Builder()
+        val builder = OkHttpClient.Builder()
             .addInterceptor(authInterceptor)
-            .addInterceptor(logger)
-            .build()
+
+        if (BuildConfig.DEBUG) {
+            val logger = HttpLoggingInterceptor().apply {
+                level = HttpLoggingInterceptor.Level.BODY
+                redactHeader(ApiHeaders.AUTHORIZATION)
+            }
+            require(!BuildConfig.BALLDONTLIE_API_KEY.isBlank()) {
+                ApiHeaders.ErrorMsgMissingApiKey
+            }
+
+            builder.addInterceptor(logger)
+        }
+        return builder.build()
+
     }
 
     @Provides
