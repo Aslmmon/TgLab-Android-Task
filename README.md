@@ -19,6 +19,32 @@ This application provides an intuitive interface to explore NBA teams, view thei
 
 ---
 
+## 📸 Screenshots & Demo
+
+### App Screenshots
+
+<table>
+  <tr>
+    <td align="center">
+      <img src="screenshots/sc_sort_dialog.png" width="280" alt="Sort Dialog"/><br/>
+      <b>Sort Options</b><br/>
+      Teams list with sort dialog (Name, City, Conference)
+    </td>
+    <td align="center">
+      <img src="screenshots/sc_games.png" width="280" alt="Team Games"/><br/>
+      <b>Team Games</b><br/>
+      Bottom sheet with infinite scroll pagination
+    </td>
+    <td align="center">
+      <img src="screenshots/sc_players.png" width="280" alt="Player Search"/><br/>
+      <b>Player Search</b><br/>
+      Real-time debounced search with results
+    </td>
+  </tr>
+</table>
+
+---
+
 ## 🏗️ Architecture
 
 The application follows **Clean Architecture** principles with strict layer separation, ensuring maintainability, testability, and scalability.
