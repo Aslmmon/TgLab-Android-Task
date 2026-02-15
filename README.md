@@ -321,6 +321,6 @@ This project is created for the TgLab Android Task assessment.
 
 ## 👤 Author
 
-**Aslmmovic**
+**Aslm Monir**
 
 Built with ❤️ using modern Android development practices.
