@@ -7,6 +7,8 @@ object Dimens {
 
 
     val ScreenPadding = 16.dp
+    val bottomAppBarHeight = 100.dp
+
 
     // general spacing
     val ItemSpacing = 12.dp

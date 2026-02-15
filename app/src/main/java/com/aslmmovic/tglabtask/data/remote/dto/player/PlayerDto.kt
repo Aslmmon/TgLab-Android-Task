@@ -11,5 +11,5 @@ data class PlayerDto(
     val id: Int,
     @SerialName("first_name") val firstName: String? = null,
     @SerialName("last_name") val lastName: String? = null,
-    val team: TeamDto? = null
+     val team: TeamDto? = null
 )

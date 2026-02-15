@@ -180,7 +180,6 @@ private fun GameTableRow(game: Game) {
         BodyCell(
             text = game.homeTeamScore?.toString() ?: "-",
             modifier = Modifier.weight(Dimens.HomeScoreWeight),
-            alignEnd = true
         )
         BodyCell(
             text = game.visitorTeamName,
@@ -189,7 +188,6 @@ private fun GameTableRow(game: Game) {
         BodyCell(
             text = game.visitorTeamScore.toString() ?: "-",
             modifier = Modifier.weight(Dimens.VisitorScoreWeight),
-            alignEnd = true
         )
     }
 }
@@ -198,7 +196,6 @@ private fun GameTableRow(game: Game) {
 private fun BodyCell(
     text: String,
     modifier: Modifier,
-    alignEnd: Boolean = false
 ) {
     Text(
         text = text,

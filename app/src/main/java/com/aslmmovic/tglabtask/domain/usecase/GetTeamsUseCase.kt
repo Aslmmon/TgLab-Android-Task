@@ -16,14 +16,11 @@ class GetTeamsUseCase @Inject constructor(
             is AppResult.Success -> {
                 val cleaned = result.data
                     .filter { it.city.isNotBlank() && it.fullName.isNotBlank() }
-
                 val sorted = when (sort) {
                     TeamSort.NAME -> cleaned.sortedBy { it.fullName.lowercase() }
                     TeamSort.CITY -> cleaned.sortedBy { it.city.lowercase() }
                     TeamSort.CONFERENCE -> cleaned.sortedBy { it.conference.lowercase() }
-
                 }
-
                 if (sorted.isEmpty()) AppResult.Empty else AppResult.Success(sorted)
             }
 

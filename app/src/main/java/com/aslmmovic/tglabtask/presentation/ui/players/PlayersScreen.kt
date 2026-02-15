@@ -105,8 +105,14 @@ private fun PlayersSearchPill(
 ) {
     OutlinedTextField(
         value = value,
-        onValueChange = onValueChange,
-        modifier = Modifier.fillMaxWidth().defaultMinSize(minHeight = 40.dp),
+        onValueChange = { newValue ->
+            if (newValue.length <= 25) {
+                onValueChange(newValue)
+            }
+        },
+        modifier = Modifier
+            .fillMaxWidth()
+            .defaultMinSize(minHeight = 40.dp),
 
         placeholder = {
             Text(

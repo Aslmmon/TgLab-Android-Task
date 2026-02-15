@@ -16,6 +16,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.*
 import com.aslmmovic.tglabtask.domain.model.Team
+import com.aslmmovic.tglabtask.presentation.theme.Dimens
 import com.aslmmovic.tglabtask.presentation.ui.home.HomeScreen
 import com.aslmmovic.tglabtask.presentation.ui.players.PlayersScreen
 import com.aslmmovic.tglabtask.presentation.ui.team.TeamGamesSheet
@@ -32,7 +33,7 @@ fun AppRoot() {
     Scaffold(
         bottomBar = {
             NavigationBar(
-                modifier = Modifier.height(100.dp), // 👈 smaller height
+                modifier = Modifier.height(Dimens.bottomAppBarHeight),
                 containerColor = MaterialTheme.colorScheme.surface
 
             ) {
