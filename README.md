@@ -279,38 +279,7 @@ app/src/main/java/com/aslmmovic/tglabtask/
 
 ---
 
-## 🧪 Testing Strategy
 
-### Recommended Test Coverage
-
-**Unit Tests** (ViewModels, UseCases, Mappers)
-- ViewModel state transitions
-- UseCase business logic (filtering, sorting)
-- Mapper transformations
-
-**Integration Tests** (Repository)
-- API integration with MockWebServer
-- Error handling scenarios
-
-**UI Tests** (Compose)
-- User flows (navigation, sorting, search)
-- State rendering (loading, error, success)
-
----
-
-## 🎓 Learning Outcomes
-
-This project demonstrates:
-
-✅ **Clean Architecture** - Proper layer separation and dependency inversion  
-✅ **MVVM Pattern** - Reactive state management with StateFlow  
-✅ **Modern Android** - Jetpack Compose, Hilt, Paging 3, Navigation Compose  
-✅ **Error Handling** - Comprehensive, user-friendly error management  
-✅ **Best Practices** - Kotlin idioms, coroutines, sealed classes  
-✅ **Performance** - Efficient rendering, pagination, debouncing  
-✅ **Code Quality** - Single Responsibility, DRY, SOLID principles  
-
----
 
 ## 📄 License
 
