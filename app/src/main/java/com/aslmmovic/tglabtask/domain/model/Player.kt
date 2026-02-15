@@ -5,5 +5,7 @@ data class Player(
     val firstName: String,
     val lastName: String,
     val teamId: Int?,        // can be null
-    val teamName: String     // “Unknown” if missing
+    val teamName: String ,
+    val teamData: Team?    // “Unknown” if missing
+// “Unknown” if missing
 )

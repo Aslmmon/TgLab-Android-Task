@@ -9,5 +9,6 @@ fun PlayerDto.toDomain(): Player = Player(
     firstName = firstName ?: "",
     lastName = lastName ?: "",
     teamId = team?.id,
-    teamName = team?.fullName ?: "Unknown"
+    teamName = team?.fullName ?: "Unknown",
+    teamData = team?.toDomain()
 )

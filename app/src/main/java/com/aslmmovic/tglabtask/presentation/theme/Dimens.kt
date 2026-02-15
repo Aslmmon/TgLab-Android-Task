@@ -24,6 +24,15 @@ object Dimens {
     val VisitorNameWeight = 0.22f
     val VisitorScoreWeight = 0.12f
 
+
+    // Players table weights (First | Last | Team)
+    val FirstNameWeight = 0.30f
+    val LastNameWeight = 0.30f
+    val TeamWeight = 0.40f
+
+
+    val ChevronColumnWidth = 24.dp
+
     // table paddings
     val TableHeaderVerticalPadding = 10.dp
     val TableRowVerticalPadding = 14.dp

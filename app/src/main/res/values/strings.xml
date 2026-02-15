@@ -33,4 +33,12 @@
     <string name="back_home">&lt; Home</string>
 
 
+    <string name="players">Players</string>
+    <string name="search">Search</string>
+
+    <string name="first_name">First Name</string>
+    <string name="last_name">Last Name</string>
+    <string name="team">Team</string>
+
+
 </resources>

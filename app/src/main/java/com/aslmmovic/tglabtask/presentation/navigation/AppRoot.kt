@@ -1,6 +1,8 @@
 package com.aslmmovic.tglabtask.presentation.navigation
 
 
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -9,6 +11,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.*
 import com.aslmmovic.tglabtask.domain.model.Team
@@ -27,7 +31,11 @@ fun AppRoot() {
 
     Scaffold(
         bottomBar = {
-            NavigationBar {
+            NavigationBar(
+                modifier = Modifier.height(100.dp), // 👈 smaller height
+                containerColor = MaterialTheme.colorScheme.surface
+
+            ) {
                 bottomNavItems.forEach { item ->
                     val selected = currentRoute == item.route
                     NavigationBarItem(
@@ -41,8 +49,21 @@ fun AppRoot() {
                                 restoreState = true
                             }
                         },
-                        icon = { Icon(item.icon, contentDescription = item.label) },
-                        label = { Text(item.label) }
+                        colors = NavigationBarItemDefaults.colors(
+                            selectedTextColor = Color.Black,
+                            unselectedTextColor = Color.Gray,
+                            indicatorColor = Color.Transparent
+                        ),
+                        interactionSource = remember { MutableInteractionSource() },
+
+                        alwaysShowLabel = true,
+                        icon = {},
+                        label = {
+                            Text(
+                                text = item.label,
+                                style = MaterialTheme.typography.bodyMedium
+                            )
+                        }
                     )
                 }
             }
@@ -60,9 +81,9 @@ fun AppRoot() {
             }
 
             composable(Route.Players.route) {
-//                PlayersScreen(
-//                    onPlayerTeamClick = { teamId -> selectedTeamId = teamId }
-//                )
+                PlayersScreen(
+                    onPlayerTeamClick = { teamId -> selectedTeamId = teamId }
+                )
             }
         }
     }
