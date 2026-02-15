@@ -4,6 +4,7 @@ import com.aslmmovic.tglabtask.BuildConfig
 import com.aslmmovic.tglabtask.data.remote.api.ApiConstants
 import com.aslmmovic.tglabtask.data.remote.api.ApiHeaders
 import com.aslmmovic.tglabtask.data.remote.api.NbaApi
+import com.chuckerteam.chucker.api.ChuckerInterceptor
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import dagger.Module
 import dagger.Provides
@@ -46,6 +47,7 @@ object NetworkModule {
                 level = HttpLoggingInterceptor.Level.BODY
                 redactHeader(ApiHeaders.AUTHORIZATION)
             }
+
             require(!BuildConfig.BALLDONTLIE_API_KEY.isBlank()) {
                 ApiHeaders.ErrorMsgMissingApiKey
             }
