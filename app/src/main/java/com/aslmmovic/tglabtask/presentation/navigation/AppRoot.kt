@@ -11,6 +11,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.*
+import com.aslmmovic.tglabtask.domain.model.Team
 import com.aslmmovic.tglabtask.presentation.ui.home.HomeScreen
 import com.aslmmovic.tglabtask.presentation.ui.players.PlayersScreen
 import com.aslmmovic.tglabtask.presentation.ui.team.TeamGamesSheet
@@ -21,7 +22,7 @@ fun AppRoot() {
     val navController = rememberNavController()
     val navBackStackEntry = navController.currentBackStackEntryAsState().value
     val currentRoute = navBackStackEntry?.destination?.route
-    var selectedTeamId by remember { mutableStateOf<Int?>(null) }
+    var selectedTeamId by remember { mutableStateOf<Team?>(null) }
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
 
     Scaffold(
@@ -59,9 +60,9 @@ fun AppRoot() {
             }
 
             composable(Route.Players.route) {
-                PlayersScreen(
-                    onPlayerTeamClick = { teamId -> selectedTeamId = teamId }
-                )
+//                PlayersScreen(
+//                    onPlayerTeamClick = { teamId -> selectedTeamId = teamId }
+//                )
             }
         }
     }
@@ -70,10 +71,12 @@ fun AppRoot() {
             onDismissRequest = { selectedTeamId = null },
             sheetState = sheetState
         ) {
-            TeamGamesSheet(
-                teamId = selectedTeamId!!,
-                onClose = { selectedTeamId = null }
-            )
+            selectedTeamId?.let {
+                TeamGamesSheet(
+                    team = it,
+                    onClose = { selectedTeamId = null }
+                )
+            }
         }
     }
 }

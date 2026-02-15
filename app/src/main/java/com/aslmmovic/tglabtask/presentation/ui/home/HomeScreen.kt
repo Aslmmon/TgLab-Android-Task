@@ -51,7 +51,7 @@ import androidx.compose.ui.res.stringResource
 
 @Composable
 fun HomeScreen(
-    onTeamClick: (teamId: Int) -> Unit,
+    onTeamClick: (team: Team) -> Unit,
     modifier: Modifier = Modifier,
     viewModel: HomeViewModel = hiltViewModel()
 ) {
@@ -149,7 +149,7 @@ private fun PillSortButton(
 @Composable
 private fun TeamsTable(
     teams: List<Team>,
-    onTeamClick: (Int) -> Unit
+    onTeamClick: (Team) -> Unit
 ) {
     Column(modifier = Modifier.fillMaxSize()) {
         TableHeaderRow()
@@ -162,7 +162,7 @@ private fun TeamsTable(
             ) { team ->
                 TeamTableRow(
                     team = team,
-                    onClick = { onTeamClick(team.id) }
+                    onClick = { onTeamClick(team) }
                 )
             }
         }
