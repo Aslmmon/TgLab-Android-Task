@@ -1,0 +1,7 @@
+
+
+# Rename `local.properties.sample` to `local.properties`
+# and replace with your own API key.
+#
+
+BALLDONTLIE_API_KEY=YOUR_API_KEY_HERE

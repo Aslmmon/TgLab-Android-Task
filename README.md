@@ -123,17 +123,17 @@ Every screen handles all four states with appropriate UI feedback.
 
 ### Technology Stack
 
-| Category | Technology | Purpose |
-|----------|-----------|---------|
-| **UI Framework** | Jetpack Compose | Declarative UI with Material 3 |
+| Category | Technology                | Purpose |
+|----------|---------------------------|---------|
+| **UI Framework** | Jetpack Compose           | Declarative UI with Material 3 |
 | **Architecture** | MVVM + Clean Architecture | Separation of concerns |
-| **DI** | Hilt | Dependency injection |
-| **Networking** | Retrofit + OkHttp | REST API communication |
-| **Serialization** | Kotlinx Serialization | JSON parsing (faster than Gson) |
-| **Async** | Coroutines + Flow | Asynchronous operations |
-| **Pagination** | Paging 3 | Infinite scroll for games |
-| **Navigation** | Navigation Compose | Type-safe navigation |
-| **Debugging** | Chucker (debug only) | Network traffic inspection |
+| **DI** | Hilt                      | Dependency injection |
+| **Networking** | Retrofit + OkHttp         | REST API communication |
+| **Serialization** | Kotlinx Serialization     | JSON parsing (faster than Gson) |
+| **Async** | Coroutines + Flow         | Asynchronous operations |
+| **Pagination** | Paging 3                  | Infinite scroll for games |
+| **Navigation** | Navigation Compose        | Type-safe navigation |
+| **Debugging** | OkHttp (debug only)       | Network traffic inspection |
 
 ### Key Features Implementation
 
@@ -224,12 +224,13 @@ Every screen provides clear feedback for all states:
 ### API Key Setup
 
 1. Get your API key from [balldontlie.io](https://www.balldontlie.io)
-2. Create `local.properties` in the project root (if not exists)
+2. Create `local.properties` in the project root (if not exists) 
 3. Add your API key:
    ```properties
    BALLDONTLIE_API_KEY=your_api_key_here
    ```
 4. Build and run the app
+5. or Rename `local.properties.sample` to `local.properties`  and replace with your own API key and build the app
 
 > **Note:** The app will fail to build without a valid API key in debug mode.
 
