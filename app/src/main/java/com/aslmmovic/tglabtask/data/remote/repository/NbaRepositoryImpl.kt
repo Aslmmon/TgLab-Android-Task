@@ -44,6 +44,7 @@ class NbaRepositoryImpl @Inject constructor(
     }
 
 
+    // no pagination implemented here
     override suspend fun searchPlayers(query: String): AppResult<List<Player>> = safeApiCall {
         api.searchPlayers(query = query, perPage = PageSize)
             .data

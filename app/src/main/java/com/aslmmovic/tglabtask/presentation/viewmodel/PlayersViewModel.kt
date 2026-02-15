@@ -35,7 +35,7 @@ class PlayersViewModel @Inject constructor(
     fun onQueryChange(value: String) {
         _query.value = value
         if (value.isBlank()) {
-            _state.value = UiState.Empty // UI will show “Type to search”
+            _state.value = UiState.Empty
         }
     }
 
