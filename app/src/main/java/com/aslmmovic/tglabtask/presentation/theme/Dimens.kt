@@ -7,4 +7,9 @@ object Dimens {
     val ScreenPadding = 16.dp
     val ItemSpacing = 12.dp
     val SmallSpacing = 8.dp
+    val NameWeight = 0.5f
+    val CityWeight = 0.3f
+    val ConferenceWeight = 0.3f
+
+
 }

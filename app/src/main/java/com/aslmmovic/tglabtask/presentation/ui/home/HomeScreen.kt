@@ -128,7 +128,7 @@ private fun PillSortButton(
     // Matches the small rounded pill in the design
     Button(
         onClick = onClick,
-        shape = RoundedCornerShape(50),
+        shape = RoundedCornerShape(20),
         contentPadding = PaddingValues(
             horizontal = 14.dp,
             vertical = 6.dp
@@ -158,7 +158,6 @@ private fun TeamsTable(
         LazyColumn(modifier = Modifier.fillMaxSize()) {
             items(
                 items = teams,
-                contentType = { "team_row" },
                 key = { it.id }
             ) { team ->
                 TeamTableRow(
@@ -180,15 +179,15 @@ private fun TableHeaderRow() {
     ) {
         HeaderCell(
             text = stringResource(R.string.name),
-            modifier = Modifier.weight(0.50f)
+            modifier = Modifier.weight(Dimens.NameWeight)
         )
         HeaderCell(
             text = stringResource(R.string.city),
-            modifier = Modifier.weight(0.30f)
+            modifier = Modifier.weight(Dimens.CityWeight)
         )
         HeaderCell(
             text = stringResource(R.string.conference),
-            modifier = Modifier.weight(0.20f)
+            modifier = Modifier.weight(Dimens.ConferenceWeight)
         )
 
         // space where chevron column lives
@@ -204,7 +203,7 @@ private fun HeaderCell(
     Text(
         text = text,
         modifier = modifier,
-        style = MaterialTheme.typography.labelMedium,
+        style = MaterialTheme.typography.labelLarge,
         color = MaterialTheme.colorScheme.onSurfaceVariant,
         maxLines = 1,
         overflow = TextOverflow.Ellipsis
@@ -226,17 +225,17 @@ private fun TeamTableRow(
 
         BodyCell(
             text = team.fullName,
-            modifier = Modifier.weight(0.5f)
+            modifier = Modifier.weight(Dimens.NameWeight)
         )
 
         BodyCell(
             text = team.city,
-            modifier = Modifier.weight(0.3f)
+            modifier = Modifier.weight(Dimens.CityWeight)
         )
 
         BodyCell(
             text = team.conference,
-            modifier = Modifier.weight(0.2f)
+            modifier = Modifier.weight(Dimens.ConferenceWeight)
         )
 
         Icon(
@@ -255,9 +254,9 @@ private fun BodyCell(
     Text(
         text = text,
         modifier = modifier,
-        style = MaterialTheme.typography.bodyMedium,
+        style = MaterialTheme.typography.bodySmall,
         maxLines = 1,
-        overflow = TextOverflow.Ellipsis
+        overflow = TextOverflow.Clip
     )
 }
 
