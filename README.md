@@ -25,6 +25,11 @@ This application provides an intuitive interface to explore NBA teams, view thei
 
 <table>
   <tr>
+ <td align="center">
+      <img src="screenshots/sc_home.png" width="280" alt="Home Screen"/><br/>
+      <b>Sort Options</b><br/>
+      Teams list in Home Screen (Name, City, Conference)
+    </td>
     <td align="center">
       <img src="screenshots/sc_sort_dialog.png" width="280" alt="Sort Dialog"/><br/>
       <b>Sort Options</b><br/>
