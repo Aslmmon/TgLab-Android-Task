@@ -10,6 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
@@ -31,9 +32,6 @@ fun TeamGamesSheet(
     viewModel: TeamGamesViewModel = hiltViewModel()
 ) {
     LaunchedEffect(team) { viewModel.setTeamId(team.id) }
-
-
-    // if your VM exposes team name, use it. Otherwise keep a placeholder like "Team".
 
     val games = viewModel.gamesFlow.collectAsLazyPagingItems()
 
@@ -89,6 +87,7 @@ fun TeamGamesSheet(
                                 onRetry = { games.retry() }
                             )
                         }
+
                         else -> Unit
                     }
                 }
@@ -106,7 +105,6 @@ private fun TeamTopBar(
     Box(modifier = Modifier.fillMaxWidth()) {
         TextButton(
             onClick = onBack,
-            contentPadding = PaddingValues(0.dp),
             modifier = Modifier.align(Alignment.CenterStart)
         ) {
             Text(text = stringResource(R.string.back_home))
@@ -134,12 +132,12 @@ private fun GamesTableHeader() {
     ) {
         HeaderCell(
             text = stringResource(R.string.home_name),
-            modifier = Modifier.weight(Dimens.HomeNameWeight)
-        )
+            modifier = Modifier.weight(Dimens.HomeNameWeight),
+
+            )
         HeaderCell(
             text = stringResource(R.string.home_score),
-            modifier = Modifier.weight(Dimens.HomeScoreWeight),
-            alignEnd = true
+            modifier = Modifier.weight(Dimens.HomeScoreWeight)
         )
         HeaderCell(
             text = stringResource(R.string.visitor_name),
@@ -147,8 +145,7 @@ private fun GamesTableHeader() {
         )
         HeaderCell(
             text = stringResource(R.string.visitor_score),
-            modifier = Modifier.weight(Dimens.VisitorScoreWeight),
-            alignEnd = true
+            modifier = Modifier.weight(Dimens.VisitorScoreWeight)
         )
     }
 }
@@ -157,14 +154,13 @@ private fun GamesTableHeader() {
 private fun HeaderCell(
     text: String,
     modifier: Modifier,
-    alignEnd: Boolean = false
 ) {
     Text(
         text = text,
         modifier = modifier,
         style = MaterialTheme.typography.labelSmall,
         color = MaterialTheme.colorScheme.onSurfaceVariant,
-        maxLines = 1,
+        textAlign = TextAlign.Center,
         overflow = TextOverflow.Ellipsis
     )
 }
@@ -179,7 +175,7 @@ private fun GameTableRow(game: Game) {
     ) {
         BodyCell(
             text = game.homeTeamName,
-            modifier = Modifier.weight(Dimens.HomeNameWeight)
+            modifier = Modifier.weight(Dimens.HomeNameWeight),
         )
         BodyCell(
             text = game.homeTeamScore?.toString() ?: "-",
@@ -191,7 +187,7 @@ private fun GameTableRow(game: Game) {
             modifier = Modifier.weight(Dimens.VisitorNameWeight)
         )
         BodyCell(
-            text = game.visitorTeamScore?.toString() ?: "-",
+            text = game.visitorTeamScore.toString() ?: "-",
             modifier = Modifier.weight(Dimens.VisitorScoreWeight),
             alignEnd = true
         )
@@ -207,8 +203,9 @@ private fun BodyCell(
     Text(
         text = text,
         modifier = modifier,
-        style = MaterialTheme.typography.bodyMedium,
-        maxLines = 1,
+        style = MaterialTheme.typography.bodySmall,
+        maxLines = 3,
+        textAlign = TextAlign.Center,
         overflow = TextOverflow.Ellipsis
     )
 }

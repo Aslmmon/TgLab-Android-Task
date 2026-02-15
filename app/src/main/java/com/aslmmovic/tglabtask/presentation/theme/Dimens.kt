@@ -14,14 +14,14 @@ object Dimens {
     val SectionSpacing = 12.dp
 
     // home table weights (keep yours)
-    val NameWeight = 0.5f
-    val CityWeight = 0.3f
+    val NameWeight = 0.4f
+    val CityWeight = 0.2f
     val ConferenceWeight = 0.2f
 
     // team games table weights (tuned for: name | score | name | score)
-    val HomeNameWeight = 0.42f
+    val HomeNameWeight = 0.22f
     val HomeScoreWeight = 0.12f
-    val VisitorNameWeight = 0.34f
+    val VisitorNameWeight = 0.22f
     val VisitorScoreWeight = 0.12f
 
     // table paddings

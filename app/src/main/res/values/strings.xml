@@ -24,10 +24,10 @@
     <string name="failed_to_load_more">Failed to load more</string>
     <string name="rate_limited">Rate limited (429). Please wait a moment and retry.</string>
 
-    <string name="home_name">Home Name</string>
-    <string name="home_score">Home Score</string>
-    <string name="visitor_name">Visitor Name</string>
-    <string name="visitor_score">Visitor Score</string>
+    <string name="home_name">Home\nName</string>
+    <string name="home_score">Home\nScore</string>
+    <string name="visitor_name">Visitor\nName</string>
+    <string name="visitor_score">Visitor\nScore</string>
 
     <string name="loading_games">Loading games…</string>
     <string name="back_home">&lt; Home</string>
