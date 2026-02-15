@@ -1,24 +1,31 @@
 package com.aslmmovic.tglabtask.presentation.ui.home
 
-
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.Button
-import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Divider
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
+import androidx.compose.material3.Icon
+import androidx.compose.material3.Button
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -27,7 +34,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.aslmmovic.tglabtask.R
@@ -40,6 +47,7 @@ import com.aslmmovic.tglabtask.presentation.ui.component.ErrorView
 import com.aslmmovic.tglabtask.presentation.ui.component.LoadingView
 import com.aslmmovic.tglabtask.presentation.util.UiState
 import com.aslmmovic.tglabtask.presentation.viewmodel.HomeViewModel
+import androidx.compose.ui.res.stringResource
 
 @Composable
 fun HomeScreen(
@@ -57,20 +65,21 @@ fun HomeScreen(
             .fillMaxSize()
             .padding(Dimens.ScreenPadding)
     ) {
-        // Top row: Sort button
+        // Top bar: "Home" + pill sort button
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
-                text = stringResource(R.string.teams),
-                style = MaterialTheme.typography.titleLarge
+                text = stringResource(R.string.home), // add "home" string if needed
+                style = MaterialTheme.typography.headlineSmall
             )
 
-            Button(onClick = { showSortDialog = true }) {
-                Text(text = sort.toButtonTitle())
-            }
+            PillSortButton(
+                title = sort.toButtonTitle(),
+                onClick = { showSortDialog = true }
+            )
         }
 
         Spacer(modifier = Modifier.height(Dimens.ItemSpacing))
@@ -82,7 +91,6 @@ fun HomeScreen(
             UiState.Empty ->
                 EmptyView(stringResource(R.string.no_teams_found))
 
-
             is UiState.Error ->
                 ErrorView(
                     message = (state as UiState.Error).message,
@@ -92,7 +100,7 @@ fun HomeScreen(
 
             is UiState.Success -> {
                 val teams = (state as UiState.Success<List<Team>>).data
-                TeamsList(
+                TeamsTable(
                     teams = teams,
                     onTeamClick = onTeamClick
                 )
@@ -113,25 +121,98 @@ fun HomeScreen(
 }
 
 @Composable
-private fun TeamsList(
+private fun PillSortButton(
+    title: String,
+    onClick: () -> Unit
+) {
+    // Matches the small rounded pill in the design
+    Button(
+        onClick = onClick,
+        shape = RoundedCornerShape(50),
+        contentPadding = PaddingValues(
+            horizontal = 14.dp,
+            vertical = 6.dp
+        ),
+        colors = ButtonDefaults.buttonColors(
+            containerColor = MaterialTheme.colorScheme.surfaceVariant,
+            contentColor = MaterialTheme.colorScheme.onSurfaceVariant
+        ),
+        elevation = ButtonDefaults.buttonElevation(defaultElevation = 0.dp)
+    ) {
+        Text(
+            text = title,
+            style = MaterialTheme.typography.labelLarge
+        )
+    }
+}
+
+@Composable
+private fun TeamsTable(
     teams: List<Team>,
     onTeamClick: (Int) -> Unit
 ) {
-    LazyColumn(
-        modifier = Modifier.fillMaxSize()
-    ) {
-        items(
-            items = teams,
-            key = { it.id }
-        ) { team ->
-            TeamRow(team = team, onClick = { onTeamClick(team.id) })
-            Divider()
+    Column(modifier = Modifier.fillMaxSize()) {
+        TableHeaderRow()
+        HorizontalDivider()
+
+        LazyColumn(modifier = Modifier.fillMaxSize()) {
+            items(
+                items = teams,
+                contentType = { "team_row" },
+                key = { it.id }
+            ) { team ->
+                TeamTableRow(
+                    team = team,
+                    onClick = { onTeamClick(team.id) }
+                )
+            }
         }
     }
 }
 
 @Composable
-private fun TeamRow(
+private fun TableHeaderRow() {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 10.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        HeaderCell(
+            text = stringResource(R.string.name),
+            modifier = Modifier.weight(0.50f)
+        )
+        HeaderCell(
+            text = stringResource(R.string.city),
+            modifier = Modifier.weight(0.30f)
+        )
+        HeaderCell(
+            text = stringResource(R.string.conference),
+            modifier = Modifier.weight(0.20f)
+        )
+
+        // space where chevron column lives
+        Spacer(modifier = Modifier.width(24.dp))
+    }
+}
+
+@Composable
+private fun HeaderCell(
+    text: String,
+    modifier: Modifier = Modifier
+) {
+    Text(
+        text = text,
+        modifier = modifier,
+        style = MaterialTheme.typography.labelMedium,
+        color = MaterialTheme.colorScheme.onSurfaceVariant,
+        maxLines = 1,
+        overflow = TextOverflow.Ellipsis
+    )
+}
+
+@Composable
+private fun TeamTableRow(
     team: Team,
     onClick: () -> Unit
 ) {
@@ -139,22 +220,47 @@ private fun TeamRow(
         modifier = Modifier
             .fillMaxWidth()
             .clickable { onClick() }
-            .padding(vertical = Dimens.ItemSpacing),
+            .padding(vertical = 14.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Column(modifier = Modifier.weight(1f)) {
-            Text(
-                text = team.fullName,
-                style = MaterialTheme.typography.titleMedium
-            )
-            Spacer(modifier = Modifier.height(Dimens.SmallSpacing))
-            Text(
-                text = "${team.city} • ${team.conference}",
-                style = MaterialTheme.typography.bodyMedium
-            )
-        }
+
+        BodyCell(
+            text = team.fullName,
+            modifier = Modifier.weight(0.5f)
+        )
+
+        BodyCell(
+            text = team.city,
+            modifier = Modifier.weight(0.3f)
+        )
+
+        BodyCell(
+            text = team.conference,
+            modifier = Modifier.weight(0.2f)
+        )
+
+        Icon(
+            imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
+            contentDescription = null
+        )
     }
 }
+
+
+@Composable
+private fun BodyCell(
+    text: String,
+    modifier: Modifier = Modifier
+) {
+    Text(
+        text = text,
+        modifier = modifier,
+        style = MaterialTheme.typography.bodyMedium,
+        maxLines = 1,
+        overflow = TextOverflow.Ellipsis
+    )
+}
+
 
 @Composable
 private fun SortDialog(
@@ -209,4 +315,3 @@ private fun SortOptionRow(
         )
     }
 }
-

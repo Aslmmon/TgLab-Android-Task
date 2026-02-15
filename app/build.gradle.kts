@@ -8,7 +8,7 @@ plugins {
 
 android {
     namespace = "com.aslmmovic.tglabtask"
-    compileSdk = 35
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "com.aslmmovic.tglabtask"
@@ -91,8 +91,6 @@ dependencies {
     implementation(libs.hilt.android)
     implementation(libs.androidx.hilt.navigation.compose)
     ksp(libs.hilt.compiler)
-
-    debugImplementation("com.github.chuckerteam.chucker:library:4.3.0")
 
 // Paging 3
     implementation(libs.androidx.paging.runtime)

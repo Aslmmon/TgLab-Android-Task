@@ -1,6 +1,12 @@
 <resources>
     <string name="app_name">TgLabTask</string>
     <string name="teams">Teams</string>
+    <string name="home">Home</string>
+
+    <string name="name">Name</string>
+    <string name="city">City</string>
+    <string name="conference">Conference</string>
+
     <string name="loading_teams">Loading teams…</string>
     <string name="no_teams_found">No teams found.</string>
 
