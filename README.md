@@ -1,6 +1,15 @@
 # 🏀 NBA Teams & Players Explorer
 
+
 A production-ready Android application showcasing **Clean Architecture**, **MVVM**, and modern Android development best practices. Built with Jetpack Compose, Hilt, and Paging 3 for the TgLab Android Task.
+
+## 📥 Download & Test
+
+> **Try the app now!** Download the debug APK to test all features on your Android device.
+
+**[📲 Download Debug APK](https://drive.google.com/file/d/1gQORbZuepQXHcueojjoTBH1ng2ZqcxzE/view?usp=sharing)**
+
+**Minimum Requirements:** Android 9.0 (API 28) or higher
 
 ---
 
