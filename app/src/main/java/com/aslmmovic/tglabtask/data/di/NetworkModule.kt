@@ -1,13 +1,16 @@
 package com.aslmmovic.tglabtask.data.di
 
+import android.content.Context
 import com.aslmmovic.tglabtask.BuildConfig
 import com.aslmmovic.tglabtask.data.remote.api.ApiConstants
 import com.aslmmovic.tglabtask.data.remote.api.ApiHeaders
 import com.aslmmovic.tglabtask.data.remote.api.NbaApi
+import com.chuckerteam.chucker.api.ChuckerInterceptor
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import kotlinx.serialization.json.Json
 import okhttp3.Interceptor
@@ -31,7 +34,9 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideOkHttpClient(): OkHttpClient {
+    fun provideOkHttpClient(
+        @ApplicationContext context: Context
+    ): OkHttpClient {
         val authInterceptor = Interceptor { chain ->
             val request = chain.request().newBuilder()
                 .addHeader(ApiHeaders.AUTHORIZATION, BuildConfig.BALLDONTLIE_API_KEY)
@@ -46,12 +51,17 @@ object NetworkModule {
                 level = HttpLoggingInterceptor.Level.BODY
                 redactHeader(ApiHeaders.AUTHORIZATION)
             }
+            val chuckerInterceptor = ChuckerInterceptor.Builder(context)
+                .alwaysReadResponseBody(true)
+                .build()
 
             require(!BuildConfig.BALLDONTLIE_API_KEY.isBlank()) {
                 ApiHeaders.ErrorMsgMissingApiKey
             }
 
             builder.addInterceptor(logger)
+                .addInterceptor(chuckerInterceptor)   // UI Inspector
+
         }
         return builder.build()
 

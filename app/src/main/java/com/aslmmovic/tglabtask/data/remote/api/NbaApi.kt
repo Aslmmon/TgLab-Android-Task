@@ -14,14 +14,14 @@ interface NbaApi {
     @GET("games")
     suspend fun getGames(
         @Query("team_ids[]") teamId: Int,
-        @Query("page") page: Int,
+        @Query("cursor") cursor: Int?,
         @Query("per_page") perPage: Int
     ): GamesResponseDto
 
     @GET("players")
     suspend fun searchPlayers(
         @Query("search") query: String,
-        @Query("page") page: Int,
+        @Query("cursor") cursor: Int?=null,
         @Query("per_page") perPage: Int
     ): PlayersResponseDto
 

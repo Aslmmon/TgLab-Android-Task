@@ -4,6 +4,7 @@ package com.aslmmovic.tglabtask.data.remote.repository
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
+import com.aslmmovic.tglabtask.data.remote.api.ApiConstants.PageSize
 import com.aslmmovic.tglabtask.data.remote.api.NbaApi
 import com.aslmmovic.tglabtask.data.remote.mapper.toDomain
 import com.aslmmovic.tglabtask.data.remote.paging.GamesPagingSource
@@ -16,7 +17,7 @@ import com.aslmmovic.tglabtask.domain.util.AppResult
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
-
+const val PagingSourceConfigSize = 50
 class NbaRepositoryImpl @Inject constructor(
     private val api: NbaApi
 ) : NbaRepository {
@@ -35,7 +36,7 @@ class NbaRepositoryImpl @Inject constructor(
     override fun getTeamGames(teamId: Int): Flow<PagingData<Game>> {
         return Pager(
             config = PagingConfig(
-                pageSize = 25,
+                pageSize = PagingSourceConfigSize,
                 enablePlaceholders = false
             ),
             pagingSourceFactory = { GamesPagingSource(api, teamId) }
@@ -44,7 +45,7 @@ class NbaRepositoryImpl @Inject constructor(
 
 
     override suspend fun searchPlayers(query: String): AppResult<List<Player>> = safeApiCall {
-        api.searchPlayers(query = query, page = 1, perPage = 25)
+        api.searchPlayers(query = query, perPage = PageSize)
             .data
             .map { it.toDomain() }
     }.let { result ->

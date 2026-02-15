@@ -87,6 +87,8 @@ dependencies {
 // OkHttp logging
     implementation(libs.logging.interceptor)
 
+    debugImplementation("com.github.chuckerteam.chucker:library:4.0.0")
+
 // Hilt DI
     implementation(libs.hilt.android)
     implementation(libs.androidx.hilt.navigation.compose)
